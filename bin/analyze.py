@@ -622,6 +622,7 @@ def main():
         end_indeces.append('%d_%d' % (milestone.site, int(milestone.index)))
         
       if milestone.bd == True and milestone.directory:
+        print 'parsing BD transitions for:Anchor', milestone.fullname
         this_counts, this_total_counts, this_total_times, this_avg_times = milestone.get_bd_transition_statistics()
         total_counts = add_dictionaries(total_counts, this_total_counts)
         total_times = add_dictionaries(total_times, this_total_times)
