@@ -133,7 +133,7 @@ bd_threads SOMETHING
 bd_prods_per_anchor SOMETHING
 #bd_calc_electrostatics SOMETHING
 bd_rec_pqr_filename SOMETHING
-
+inputgen_executable SOMETHING
 ##############################################################
 # APBS Parameters
 ##############################################################
