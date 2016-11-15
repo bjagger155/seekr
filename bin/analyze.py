@@ -548,6 +548,7 @@ def get_beta_from_K_q0(K, q0, bound_indices):
   K_inf = np.matrix(K) ** 99999999
   #n,m = K_inf.shape
   q_inf = np.dot(K_inf, q0)
+  #print "q_inf:", q_inf
   beta = 0.0
   for bound_index in bound_indices:
     beta += q_inf[bound_index, 0]
@@ -561,7 +562,7 @@ def main():
   onoff_group.add_argument('--off', dest="off", default=False, help="Perform a k-off calculation - where a high state is the sink", action="store_true")
   onoff_group.add_argument('--free_energy', dest="free_energy", default=False, help="Calculate a free energy profile - where there are no sinks", action="store_true")
   parser.add_argument('-m', '--milestones', dest="milestones", type=str, help="Milestones file") # This should contain most of what the user needs
-  parser.add_argument('-b', '--bound_states', dest="bound_states", type=str, default=0, help="The milestone index of the bound state(s). If different bound states exist for different sites, then separate with a colon. For multiple bound states, separate with commas. Examples: '0', '1:2', '0:1,1:3'.")
+  parser.add_argument('-b', '--bound_states', dest="bound_states", type=str, default="0", help="The milestone index of the bound state(s). If different bound states exist for different sites, then separate with a colon. For multiple bound states, separate with commas. Examples: '0', '1:2', '0:1,1:3'.")
   # TODO: escape state?
   parser.add_argument('--nobd', dest="nobd", help="Do not include the BD statistics in the calculation")
   parser.add_argument('--nomd', dest="nomd", help="Do not include the MD statistics in the calculation")
@@ -622,7 +623,6 @@ def main():
         end_indeces.append('%d_%d' % (milestone.site, int(milestone.index)))
         
       if milestone.bd == True and milestone.directory:
-        print 'parsing BD transitions for:Anchor', milestone.fullname
         this_counts, this_total_counts, this_total_times, this_avg_times = milestone.get_bd_transition_statistics()
         total_counts = add_dictionaries(total_counts, this_total_counts)
         total_times = add_dictionaries(total_times, this_total_times)
@@ -693,11 +693,11 @@ def main():
     avg_times['inf'] = 0.0
     
     # TODO: remove this hardcode
-    trans['site1_0'] = {'site1_1':1.0}
-    counts['site1_0'] = {'site1_1':1e9}
-    avg_times['site1_0'] = 1e11
+    #trans['site1_0'] = {'site1_1':1.0}
+    #counts['site1_0'] = {'site1_1':1e9}
+    #avg_times['site1_0'] = 1e11
     
-    avg_times['site1_6'] = 1e8
+    #avg_times['site1_6'] = 1e8
     
   elif calc_type == "free_energy": # then the user wants a free energy profile
     trans['inf'] = {'inf':0.0}
@@ -712,13 +712,13 @@ def main():
             trans[key]['inf'] = 0.0
             
     # TODO: remove this hardcode
-    trans['site1_0'] = {'site1_0':0.5, 'site1_1':0.5}
-    counts['site1_0'] = {'site1_0':1e9, 'site1_1':1e9}
-    avg_times['site1_0'] = 1e0
+    #trans['site1_0'] = {'site1_0':0.5, 'site1_1':0.5}
+    #counts['site1_0'] = {'site1_0':1e9, 'site1_1':1e9}
+    #avg_times['site1_0'] = 1e0
     
-    trans['inf'] = {'site1_6':1.0}
-    counts['inf'] = {'site1_6':1e9}
-    avg_times['inf'] = 1e0
+    #trans['inf'] = {'site1_6':1.0}
+    #counts['inf'] = {'site1_6':1e9}
+    #avg_times['inf'] = 1e0
     
     '''
     found_sink = False
@@ -807,7 +807,7 @@ def main():
     print "avg_times dictionary:", avg_times
     print "avg_t vector", avg_t
     print "transitions:"
-    print K
+    pprint(K)
     print "index_dict:"
     pprint(index_dict)
     print "q0"
